@@ -1,3 +1,4 @@
+/*
 function nameValidation(name) {
   if (!name) return 'Name is required';
   if (name.length < 2) return 'Name must be at least 2 characters';
@@ -27,3 +28,4 @@ function validateAll(name, value, stock, description) {
 }
 
 module.exports = validateAll;
+*/

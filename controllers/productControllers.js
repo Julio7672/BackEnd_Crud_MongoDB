@@ -1,5 +1,4 @@
 const Product = require('../models/productModels') 
-const validateAll = require('../middleware/validation')
 
 async function getProducts(req, res) {
     try {
@@ -21,27 +20,22 @@ async function getProductById(req, res) {
 }
 
 async function createProduct(req, res) {
-    const { name, value, stock, description } = req.body;
-    const Error = validateAll(name, value, stock, description);
-    if (!Error) {
-      const newProduct = await Product.create(req.body);
-      return res.status(200).json(newProduct);
+    try {
+        const newProduct = await Product.create(req.body);
+        return res.status(200).json(newProduct);   
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
-    return res.status(400).json({ message: Error });
 }
 
 async function updateProduct(req, res) {
     try {
-        const { name, value, stock, description } = req.body;
-        const Error = validateAll(name, value, stock, description);
-        if (Error) return res.status(400).json({ message: Error });
-        else {
-            const {id} = req.params;
-            const product = await Product
-                .findByIdAndUpdate(id, req
-                .body, {new: true});
-            res.status(200).json(product);
-        }
+        const {id} = req.params;
+        const product = await Product
+        .findByIdAndUpdate(id, req
+        .body, {new: true});
+        res.status(200).json(product);
+        
     } catch (error) {
         res.status(400).json({message: error.message})
     }
